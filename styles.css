@@ -285,3 +285,25 @@ h1 {
 .calendar-link:hover, .map-link:hover {
     border-bottom-color: transparent;
 }
+
+.link-button {
+    background: none;
+    border: none;
+    color: inherit;
+    font: inherit;
+    padding: 8px;
+    margin: 0;
+    border-bottom: 1px dashed #fff;
+    cursor: pointer;
+    position: relative;
+    z-index: 1000;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
+}
+
+.link-button:hover {
+    border-bottom-color: transparent;
+}
+
+.link-button:active {
+    opacity: 0.8;
+}
