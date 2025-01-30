@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let endY = 0;
     const threshold = 50;
 
-    const shapes = ['J', 'T', 'S', 'O', 'Z', 'I', 'L'];
+    // 颜色定义
     const colors = {
         'J': '#FF0DB2FF', // 粉色
         'T': '#2E5FF2FF', // 蓝色
