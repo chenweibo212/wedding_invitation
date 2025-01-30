@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Futura:wght@700&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap">
     <link rel="stylesheet" href="/wedding_invitation/styles.css">
+    <!-- <link rel="stylesheet" href="./styles.css"> -->
 </head>
 <body>
     <div class="container">
@@ -23,7 +24,15 @@
                 </div>
                 <div class="venue-info">
                     <div class="info-container-2">
-                        <div class="location">婚礼时间： 2025.03.02 星期日<br>婚礼地点： 杭州西湖柳莺里酒店</div>
+                        <div class="location">婚礼时间： 
+                            <a href="./wedding.ics" class="calendar-link">2025.03.02 星期日</a><br>
+                            <div class="venue">婚礼地点：
+                                <a href="amapuri://route/plan/?dlat=30.259117&dlon=120.130261&dname=杭州西湖柳莺里酒店" 
+                                   onclick="window.open('https://maps.apple.com/?q=杭州西湖柳莺里酒店'); window.open('bdapp://map/geocoder?address=杭州西湖柳莺里酒店');">
+                                    杭州西湖柳莺里酒店
+                                </a>
+                            </div>
+                        </div>
                         <div class="event">15:16<br>碧湖轩小草坪</div>
                         <div class="event">17:18<br>五号楼柳莺厅</div>
                     </div>
@@ -32,5 +41,6 @@
         </div>
     </div>
     <script src="/wedding_invitation/script.js"></script>
+    <!-- <script src="./script.js"></script>  -->
 </body>
 </html>

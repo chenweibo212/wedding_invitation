@@ -8,21 +8,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const shapes = ['J', 'T', 'S', 'O', 'Z', 'I', 'L'];
     const colors = {
         'J': '#FF0DB2FF', // 粉色
-        'T': '#BF0000FF', // 红色
-        'S': '#F74A25FF', // 橙色
-        'O': '#7A21A8FF', // 紫色
-        'Z': '#089247FF', // 绿色
-        'I': '#E4FF00FF', // 黄色
-        'L': '#2E5FF2FF'  // 蓝色
+        'T': '#2E5FF2FF', // 蓝色
+        'S': '#E4FF00FF', // 黄色
+        'O': '#089247FF', // 绿色
+        'Z': '#7A21A8FF', // 紫色
+        'I': '#F74A25FF', // 橙色
+        'L': '#BF0000FF'  // 红色
     };
     const contrastColors = {
-        'J': '#2E5FF2FF', // 粉色对应蓝色
-        'T': '#FF0DB2FF', // 红色对应粉色
-        'S': '#BF0000FF', // 橙色对应红色
-        'O': '#F74A25FF', // 紫色对应橙色
-        'Z': '#7A21A8FF', // 绿色对应紫色
-        'I': '#089247FF', // 黄色对应绿色
-        'L': '#E4FF00FF'  // 蓝色对应黄色
+        'J': '#2E5FF2FF', // 蓝色
+        'T': '#E4FF00FF', // 黄色
+        'S': '#089247FF', // 绿色
+        'O': '#7A21A8FF', // 紫色
+        'Z': '#F74A25FF', // 橙色
+        'I': '#BF0000FF', // 红色
+        'L': '#FF0DB2FF'  // 粉色
     };
     
     let currentShapeIndex = 0;
@@ -45,56 +45,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 设置初始背景色
     document.body.style.backgroundColor = contrastColors[shapes[0]];
-    // 移除背景色过渡效果
-    document.body.style.transition = 'none';
 
     // 自动切换形状
     setInterval(() => {
-        const nextShapeIndex = (currentShapeIndex + 1) % shapes.length;
-        const nextShape = shapes[nextShapeIndex];
-        const currentShape = shapes[currentShapeIndex];
+        // 更新当前形状索引
+        currentShapeIndex = (currentShapeIndex + 1) % shapes.length;
+        const nextShape = shapes[currentShapeIndex];
         
-        // 背景色直接切换
-        document.body.style.transition = 'background-color 0.2s';
-        document.body.style.backgroundColor = contrastColors[nextShape];
-
-        // 等待0.5秒后开始方块动画
-        setTimeout(() => {
-            tetrisShapes.forEach(shape => {
-                const nextPositions = getShapePositions(nextShape);
-                
-                Array.from(shape.children).forEach((block, index) => {
-                    // 更新颜色（无过渡）
-                    block.style.transition = 'color 0.1s';
-                    const nextColor = colors[nextShape];
-                    block.style.backgroundColor = nextColor;
-                    block.style.borderColor = nextColor;
-                    
-                    // 快速淡入新颜色
-                    requestAnimationFrame(() => {
-                        block.style.transition = 'opacity 0.05s ease-in';
-                        block.style.opacity = '1';
-                    });
-                });
+        tetrisShapes.forEach(shape => {
+            const blocks = shape.querySelectorAll('.tetris-block');
+            
+            // 直接更新方块颜色（无过渡）
+            blocks.forEach(block => {
+                block.style.backgroundColor = colors[nextShape];
             });
-
-            // 等待0.2秒后开始位置变化
+            
+            // 0.5秒后直接切换背景色
             setTimeout(() => {
-                tetrisShapes.forEach(shape => {
-                    const nextPositions = getShapePositions(nextShape);
-                    
-                    Array.from(shape.children).forEach((block, index) => {
-                        // 开始位置过渡
-                        block.style.transition = 'left 1.5s ease-in-out, top 1.5s ease-in-out';
-                        block.style.left = nextPositions[index].left;
-                        block.style.top = nextPositions[index].top;
-                    });
-                });
+                // 更新背景色（无过渡）
+                document.body.style.backgroundColor = contrastColors[nextShape];
                 
-                currentShapeIndex = nextShapeIndex;
-            }, 50);
-        }, 1500);
-    }, 4000);
+                // 再过0.5秒后开始移动方块
+                setTimeout(() => {
+                    // 添加位置过渡
+                    blocks.forEach(block => {
+                        block.style.transition = 'left 2s ease, top 2s ease';
+                    });
+                    
+                    // 更新位置
+                    blocks.forEach((block, index) => {
+                        const positions = getShapePositions(nextShape);
+                        block.style.left = positions[index].left;
+                        block.style.top = positions[index].top;
+                    });
+                    
+                    // 2秒后移除位置过渡（为下一次做准备）
+                    setTimeout(() => {
+                        blocks.forEach(block => {
+                            block.style.transition = '';
+                        });
+                    }, 2000);
+                }, 500);
+            }, 500);
+        });
+    }, 4000); // 每4秒切换一次
 
     function getShapePositions(shapeName) {
         switch(shapeName) {
