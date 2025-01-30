@@ -101,7 +101,6 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    pointer-events: none;
     font-family: 'Futura', sans-serif;
     font-weight: bold;
 }
@@ -112,13 +111,7 @@ body {
     left: 0;
     margin: 0;
     letter-spacing: 0.2vmin;
-}
-
-.text-container {
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    padding: 20px;
+    pointer-events: none;
 }
 
 h1 {
@@ -127,6 +120,7 @@ h1 {
     white-space: nowrap;
     padding-left: 1.5vmin;
     padding-top: 1.5vmin;
+    pointer-events: none;
 }
 
 .wedding-text {
@@ -135,6 +129,7 @@ h1 {
     font-weight: normal;
     text-align: left;
     line-height: 1.5;
+    pointer-events: none;
 }
 
 .venue-info {
@@ -143,6 +138,7 @@ h1 {
     left: 0;
     width: 100%;
     text-align: center;
+    z-index: 4;
 }
 
 .info-container-2 {
@@ -152,7 +148,7 @@ h1 {
 
 .location {
     font-size: 4vmin;
-    margin-bottom: 2vh;
+    /* margin-bottom: 2vh; */
     letter-spacing: 0.2vmin;
     position: relative;
     padding-bottom: 2vh;
@@ -174,6 +170,7 @@ h1 {
     font-size: 4vmin;
     letter-spacing: 0.2vmin;
     line-height: 1.7;
+    pointer-events: none;
 }
 
 .hotel-info {
@@ -189,6 +186,7 @@ h1 {
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    pointer-events: none;
 }
 
 .names {
@@ -258,7 +256,7 @@ h1 {
 .shape-J div:nth-child(3) { left: calc(-31.05vmin); top: 0vmin; }
 .shape-J div:nth-child(4) { left: calc(-62.1vmin); top: 0vmin; }
 
-.venue a {
+/* .venue a {
     color: inherit;
     text-decoration: none;
     border-bottom: 1px dashed #fff;
@@ -268,42 +266,24 @@ h1 {
 
 .venue a:hover {
     border-bottom-color: transparent;
-}
+} */
 
 .calendar-link, .map-link {
     color: inherit;
     text-decoration: none;
-    border-bottom: 1px dashed #fff;
-    padding-bottom: 2px;
-    transition: border-bottom-color 0.3s ease;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-    padding: 5px;
-    display: inline-block;
+    border-bottom: 0.2vmin dashed #fff;
+    padding: 1vmin;
+    margin: 0;
+    cursor: pointer; 
+    position: relative;
+    z-index: 1000;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
 }
 
 .calendar-link:hover, .map-link:hover {
     border-bottom-color: transparent;
 }
 
-.link-button {
-    background: none;
-    border: none;
-    color: inherit;
-    font: inherit;
-    padding: 8px;
-    margin: 0;
-    border-bottom: 1px dashed #fff;
-    cursor: pointer;
-    position: relative;
-    z-index: 1000;
-    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
-}
-
-.link-button:hover {
-    border-bottom-color: transparent;
-}
-
-.link-button:active {
+.calendar-link:active, .map-link:active {
     opacity: 0.8;
 }

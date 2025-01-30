@@ -1,11 +1,36 @@
+// 地图打开函数
+function openMaps(name, lat, lng) {
+    // 检测设备类型
+    const ua = navigator.userAgent.toLowerCase();
+    const isIOS = /iphone|ipad|ipod/.test(ua);
+    const isAndroid = /android/.test(ua);
+
+    // 构建地图链接
+    const amapUrl = `androidamap://navi?sourceApplication=wedding&lat=${lat}&lon=${lng}&keywords=${encodeURIComponent(name)}&dev=0&style=2`;
+    const baiduUrl = `bdapp://map/geocoder?address=${encodeURIComponent(name)}`;
+    const appleUrl = `https://maps.apple.com/?q=${encodeURIComponent(name)}`;
+    
+    // 尝试打开地图
+    if (isIOS) {
+        // iOS设备优先打开高德地图，然后是苹果地图
+        window.location.href = amapUrl.replace('android', '');
+        setTimeout(() => { window.location.href = appleUrl; }, 2000);
+    } else if (isAndroid) {
+        // 安卓设备优先打开高德地图，然后是百度地图
+        window.location.href = amapUrl;
+        setTimeout(() => { window.location.href = baiduUrl; }, 2000);
+    } else {
+        // 其他设备打开网页版高德地图
+        window.open(`https://uri.amap.com/marker?position=${lng},${lat}&name=${encodeURIComponent(name)}`);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     let currentPage = 1;
-    const totalPages = document.querySelectorAll('.page').length;
-    let startY = 0;
     let endY = 0;
     const threshold = 50;
 
-    // 颜色定义
+    const shapes = ['J', 'T', 'S', 'O', 'Z', 'I', 'L'];
     const colors = {
         'J': '#FF0DB2FF', // 粉色
         'T': '#2E5FF2FF', // 蓝色
@@ -32,13 +57,15 @@ document.addEventListener('DOMContentLoaded', () => {
     tetrisShapes.forEach(shape => {
         // 清空现有内容
         shape.innerHTML = '';
-        // 添加4个方块
+        
+        // 创建方块
         for (let i = 0; i < 4; i++) {
             const block = document.createElement('div');
             block.className = 'tetris-block';
             block.style.opacity = '1';
             shape.appendChild(block);
         }
+        
         // 设置初始形状
         updateShape(shape, shapes[0]);
     });
@@ -85,8 +112,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             block.style.transition = '';
                         });
                     }, 2000);
-                }, 300);
-            }, 300);
+                }, 500);
+            }, 500);
         });
     }, 4000); // 每4秒切换一次
 
