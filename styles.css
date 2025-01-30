@@ -1,0 +1,261 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --page-width: 100vw;
+    --page-height: 217vw; /* iPhone 16 aspect ratio */
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background-color: #000;
+    color: #fff;
+    transition: background-color 0.5s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.page {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.5s ease;
+    transform: translateX(100%);
+}
+
+.page.current {
+    position: absolute;
+    /* width: 100%;
+    height: 100%; */
+    /* display: flex; */
+    transform: translateX(0);
+}
+
+.tetris-container {
+    position: relative;
+    top: 65%;
+    left: 55%;
+    transform: translate(25%, -30%);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: -100;
+}
+
+.tetris-shape {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+    z-index: -100;
+    opacity:1;
+}
+
+.tetris-block {
+    width: calc(31.05vmin - 3px);
+    height: calc(31.05vmin - 3px);
+    position: absolute;
+    border: 3px solid;
+    box-sizing: border-box;
+    opacity: 0.8;
+    z-index: -1;
+}
+
+.text-content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    padding: 3vh 0.2vmin 0.2vmin;
+    box-sizing: border-box;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none;
+    font-family: 'Futura', sans-serif;
+    font-weight: bold;
+}
+
+.text-content h1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    letter-spacing: 0.2vmin;
+}
+
+.text-container {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 4vmin;
+    margin-bottom: 0;
+    white-space: nowrap;
+    padding-left: 1.5vmin;
+    padding-top: 1.5vmin;
+}
+
+.wedding-text {
+    font-size: 16vmin;
+    margin-top: 0;
+    font-weight: normal;
+    text-align: left;
+    line-height: 1.5;
+}
+
+.venue-info {
+    position: absolute;
+    bottom: 5vmin;
+    left: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.info-container-2 {
+    padding-left: 1.5vmin;
+    padding-bottom: 1.5vmin;
+}
+
+.location {
+    font-size: 4vmin;
+    margin-bottom: 2vh;
+    letter-spacing: 0.2vmin;
+    position: relative;
+    padding-bottom: 2vh;
+    line-height: 1.7;
+}
+
+.location::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30vmin;
+    height: 1px;
+    background-color: currentColor;
+}
+
+.event {
+    font-size: 4vmin;
+    letter-spacing: 0.2vmin;
+    line-height: 1.7;
+}
+
+.hotel-info {
+    font-size: 4vmin;
+    text-align: center;
+    margin-top: 5vh;
+}
+
+.info-container {
+    /* margin-top: 2vh; */
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.names {
+    text-align: left;
+    font-size: 10vmin;
+    padding-left: 1.5vmin;
+    margin-top: 0;
+    letter-spacing: 0.2vmin;
+}
+
+.date {
+    font-size: 4vmin;
+    margin-bottom: 2vh;
+    letter-spacing: 0.2vmin;
+    position: relative;
+}
+
+/* 确保每个形状的类都存在 */
+.shape-I, .shape-J, .shape-L, .shape-O, .shape-S, .shape-T, .shape-Z {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* I形方块位置 */
+.shape-I div:nth-child(1) { left: calc(-31.05vmin);  top: calc(-62.1vmin); }
+.shape-I div:nth-child(2) { left: calc(-31.05vmin); top: calc(-31.05vmin); }
+.shape-I div:nth-child(3) { left: calc(-31.05vmin); top: 0vmin;}
+.shape-I div:nth-child(4) { left: calc(-31.05vmin); top: calc(31.05vmin); }
+
+/* L形方块位置 */
+.shape-L div:nth-child(1) { left: calc(-31.05vmin); top: calc(-62.1vmin); }
+.shape-L div:nth-child(2) { left: calc(-31.05vmin); top: calc(-31.05vmin); }
+.shape-L div:nth-child(3) { left: calc(-31.05vmin); top: 0vmin; }
+.shape-L div:nth-child(4) { left: calc(0vmin); top: 0vmin; }
+
+/* O形方块位置 */
+.shape-O div:nth-child(1) { left: calc(-31.05vmin);  top: calc(-31.05vmin); }
+.shape-O div:nth-child(2) { left: calc(-31.05vmin); top: calc(0vmin);  }
+.shape-O div:nth-child(3) { left: calc(-62.1vmin); top: calc(0vmin); }
+.shape-O div:nth-child(4) { left: calc(-62.1vmin); top: calc(-31.05vmin);  }
+
+/* Z形方块位置 */
+.shape-Z div:nth-child(1) { left: calc(-31.05vmin);  top: calc(-31.05vmin); }
+.shape-Z div:nth-child(2) { left: 0vmin; top: 0vmin; }
+.shape-Z div:nth-child(3) { left: calc(-31.05vmin); top: 0vmin; }
+.shape-Z div:nth-child(4) { left: calc(-62.1vmin); top: calc(-31.05vmin); }
+
+/* T形方块位置 */
+.shape-T div:nth-child(1) { left: calc(-31.05vmin); top: calc(-62.1vmin);  }
+.shape-T div:nth-child(2) { left: calc(-31.05vmin); top: calc(-31.05vmin); }
+.shape-T div:nth-child(3) { left: calc(-31.05vmin); top: calc(0vmin); }
+.shape-T div:nth-child(4) { left: calc(-62.1vmin); top: calc(-31.05vmin); }
+
+/* S形方块位置 */
+.shape-S div:nth-child(1) { left: calc(-31.05vmin); top: calc(-62.1vmin); }
+.shape-S div:nth-child(2) { left: calc(-31.05vmin); top: calc(-31.05vmin); }
+.shape-S div:nth-child(3) { left: calc(-62.1vmin); top: calc(0vmin); }
+.shape-S div:nth-child(4) { left: calc(-62.1vmin); top: calc(-31.05vmin); }
+
+/* J形方块位置 */
+.shape-J div:nth-child(1) { left: calc(-31.05vmin); top: calc(-62.1vmin); }
+.shape-J div:nth-child(2) { left: calc(-31.05vmin); top: calc(-31.05vmin); }
+.shape-J div:nth-child(3) { left: calc(-31.05vmin); top: 0vmin; }
+.shape-J div:nth-child(4) { left: calc(-62.1vmin); top: 0vmin; }
