@@ -192,4 +192,30 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('touchmove', (e) => {
         e.preventDefault();
     }, { passive: false });
+
+    function openMaps(name, lat, lng) {
+        // 检测设备类型
+        const ua = navigator.userAgent.toLowerCase();
+        const isIOS = /iphone|ipad|ipod/.test(ua);
+        const isAndroid = /android/.test(ua);
+
+        // 构建地图链接
+        const amapUrl = `amapuri://route/plan/?dlat=${lat}&dlon=${lng}&dname=${encodeURIComponent(name)}`;
+        const baiduUrl = `bdapp://map/geocoder?address=${encodeURIComponent(name)}`;
+        const appleUrl = `https://maps.apple.com/?q=${encodeURIComponent(name)}`;
+        
+        // 尝试打开地图
+        if (isIOS) {
+            // iOS设备优先打开高德地图，然后是苹果地图
+            window.location.href = amapUrl;
+            setTimeout(() => { window.location.href = appleUrl; }, 2000);
+        } else if (isAndroid) {
+            // 安卓设备优先打开高德地图，然后是百度地图
+            window.location.href = amapUrl;
+            setTimeout(() => { window.location.href = baiduUrl; }, 2000);
+        } else {
+            // 其他设备打开网页版高德地图
+            window.open(`https://uri.amap.com/marker?position=${lng},${lat}&name=${encodeURIComponent(name)}`);
+        }
+    }
 });
