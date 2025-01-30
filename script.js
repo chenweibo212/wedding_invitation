@@ -27,7 +27,7 @@ function openMaps(name, lat, lng) {
 
 // 打开日历文件
 function openCalendar() {
-    window.location.href = './wedding.ics';
+    window.location.href = '/wedding_invitation/wedding.ics';
 }
 
 // 获取形状位置函数
