@@ -44,11 +44,11 @@
                 transform: translateY(0);
             }
             to { 
-                transform: translateY(100vh);
+                transform: translateY(120vh);
             }
         }
         .slide-down {
-            animation: slideDown 0.8s ease-in forwards;
+            animation: slideDown 1s ease-in forwards;
         }
     </style>
 </head>
@@ -59,7 +59,10 @@
 
         // Determine target page from URL
         const path = window.location.pathname;
-        const targetPage = path.includes('evening') ? '/evening' : '/afternoon';
+        let targetPage = sessionStorage.getItem('targetPage');
+        if (!targetPage) {
+            targetPage = path.includes('evening') ? '/evening' : '/afternoon';
+        }
         
         // Matter.js setup
         const Engine = Matter.Engine,
@@ -232,13 +235,10 @@
                             // Add slide down animation to square
                             square.classList.add('slide-down');
                             
-                            // Get target page and redirect after animation
-                            const targetPage = sessionStorage.getItem('targetPage');
-                            sessionStorage.removeItem('targetPage');
-                            
-                            setTimeout(() => {
-                                window.location.href = targetPage || '/afternoon';
-                            }, 800); // Match animation duration
+                            // Listen for animation end before redirecting
+                            square.addEventListener('animationend', () => {
+                                window.location.href = targetPage;
+                            });
                         } else {
                             setTimeout(checkAllBallsOffScreen, 100);
                         }
