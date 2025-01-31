@@ -220,3 +220,49 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
     }, { passive: false });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Prevent scrolling on iOS
+    document.addEventListener('touchmove', (e) => {
+        e.preventDefault();
+    }, { passive: false });
+
+    // Handle orientation changes
+    function handleOrientationChange() {
+        const isLandscape = window.innerWidth > window.innerHeight;
+        const namesDiv = document.querySelector('.names');
+        
+        if (isLandscape) {
+            // Only modify if we're in vertical layout (contains <br>)
+            if (namesDiv.innerHTML.includes('<br>')) {
+                const content = namesDiv.innerHTML
+                    .replace(/<br>/g, ' ')
+                    .replace(/\s+/g, ' ')
+                    .trim();
+                namesDiv.innerHTML = content;
+            }
+        } else {
+            // Only modify if we're in horizontal layout (no <br>)
+            if (!namesDiv.innerHTML.includes('<br>')) {
+                // Find the plus sign element
+                const plusMatch = namesDiv.innerHTML.match(/<span class="plus">\+<\/span>/);
+                const plusSign = plusMatch ? plusMatch[0] : '+';
+                
+                // Split the text content carefully
+                const text = namesDiv.textContent.trim();
+                const parts = text.split('+').map(part => part.trim());
+                
+                if (parts.length === 2) {
+                    namesDiv.innerHTML = `${parts[0]}<br>${plusSign}<br>${parts[1]}`;
+                }
+            }
+        }
+    }
+
+    // Initial check
+    handleOrientationChange();
+
+    // Listen for orientation changes and window resizes
+    window.addEventListener('orientationchange', handleOrientationChange);
+    window.addEventListener('resize', handleOrientationChange);
+});

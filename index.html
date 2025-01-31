@@ -1,50 +1,258 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>2025/03/02 汪孟洋+陈炜博婚礼邀请函</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Futura:wght@700&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap">
-    <link rel="stylesheet" href="/wedding_invitation/styles.css">
-    <link rel="stylesheet" href="./styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-color: black;
+            color: white;
+            font-family: sans-serif;
+            overflow: hidden;
+        }
+        #canvas {
+            width: 100vw;
+            height: 100vh;
+            padding: 0;
+            margin: 0;
+        }
+        .emoji {
+            font-size: 20vmin;
+            position: absolute;
+            pointer-events: none;
+            user-select: none;
+            transform-origin: center;
+            will-change: transform;
+            padding: 0;
+            margin: 0;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <div class="page current" id="page1">
-            <div class="tetris-container">
-                <div class="tetris-shape"></div>
-            </div>
-            <div class="text-content">
-                <h1>诚挚邀请您来参加我们的婚礼</h1>
-                <h2 class="wedding-text">/  WEDDING<br>INVITATION</h2>
-                <div class="info-container">
-                    <div class="names">汪孟洋<br>+<br>陈炜博</div>
-                    <!-- <div class="date">**********</div> -->
-                </div>
-                <div class="venue-info">
-                    <div class="info-container-2">
-                        <div class="location">
-                            婚礼时间： 
-                            <a href="/wedding_invitation/wedding.ics" 
-                               download="汪孟洋和陈炜博的婚礼.ics"
-                               type="text/calendar"
-                               class="calendar-link">2025.03.02 星期日</a><br>
-                            婚礼地点：
-                            <a href="androidamap://navi?sourceApplication=wedding&lat=30.259117&lon=120.130261&keywords=杭州西湖柳莺里酒店&dev=0&style=2" 
-                               onclick="openMaps('杭州西湖柳莺里酒店', 30.259117, 120.130261); return false;" 
-                               class="map-link">
-                                杭州西湖柳莺里酒店
-                            </a>
-                        </div>
-                        <div class="event">15:16<br>碧湖轩小草坪</div>
-                        <div class="event">17:18<br>五号楼柳莺厅</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script src="/wedding_invitation/script.js"></script>
-    <script src="./script.js"></script> 
+    <script>
+        // Determine target page from URL
+        const path = window.location.pathname;
+        const targetPage = path.includes('evening') ? '/evening' : '/afternoon';
+        
+        // Matter.js setup
+        const Engine = Matter.Engine,
+            Render = Matter.Render,
+            Runner = Matter.Runner,
+            Bodies = Matter.Bodies,
+            Composite = Matter.Composite;
+
+        // Create engine and world
+        const engine = Engine.create();
+        const world = engine.world;
+        engine.gravity.y = 0.6;
+
+        // Create renderer
+        const render = Render.create({
+            element: document.body,
+            engine: engine,
+            options: {
+                width: window.innerWidth,
+                height: window.innerHeight,
+                wireframes: false,
+                background: 'transparent'
+            }
+        });
+
+        // Create ground and walls
+        const ground = Bodies.rectangle(window.innerWidth/2, window.innerHeight, window.innerWidth, 60, { 
+            isStatic: true,
+            render: { fillStyle: 'transparent' }
+        });
+        const leftWall = Bodies.rectangle(0, window.innerHeight/2, 60, window.innerHeight, { 
+            isStatic: true,
+            render: { fillStyle: 'transparent' }
+        });
+        const rightWall = Bodies.rectangle(window.innerWidth, window.innerHeight/2, 60, window.innerHeight, { 
+            isStatic: true,
+            render: { fillStyle: 'transparent' }
+        });
+
+        // Add ground and walls to world
+        Composite.add(world, [ground, leftWall, rightWall]);
+
+        // Create disco ball with random properties
+        function createDiscoBall(index) {
+            const ball = document.createElement('div');
+            ball.className = 'emoji';
+            ball.style.animation = `spin ${2 + Math.random() * 2}s linear infinite`;
+            
+            // Make the first ball special
+            if (index === 0) {
+                ball.textContent = '㊗️';
+                ball.style.fontSize = '20vmin';
+            } else {
+                ball.style.fontSize = `${15 + Math.random() * 20}vmin`;
+                ball.textContent = '🪩';
+            }
+            
+            document.body.appendChild(ball);
+
+            const radius = parseFloat(ball.style.fontSize) * window.innerWidth / 100 / 2;
+            const discoBall = Bodies.circle(
+                radius + Math.random() * (window.innerWidth - 2 * radius),
+                -radius - Math.random() * window.innerHeight,
+                radius,
+                {
+                    restitution: 0.3 + Math.random() * 0.4,
+                    friction: 0.1,
+                    render: { fillStyle: 'transparent' }
+                }
+            );
+
+            // Add random initial velocity
+            Matter.Body.setVelocity(discoBall, {
+                x: (Math.random() - 0.5) * 5,
+                y: Math.random() * 3
+            });
+
+            // Update emoji position to match physics body
+            Matter.Events.on(engine, 'afterUpdate', () => {
+                ball.style.left = `${discoBall.position.x - radius}px`;
+                ball.style.top = `${discoBall.position.y - radius}px`;
+                
+                // If ball is far below screen, remove it from DOM
+                if (discoBall.position.y > window.innerHeight * 2) {
+                    ball.remove();
+                }
+            });
+
+            return discoBall;
+        }
+
+        // Create multiple disco balls with slight delay
+        let ballsAdded = 0;
+        let isScreenFull = false;
+        let dropStarted = false;
+        const MAX_BALLS = 40;
+        
+        function checkShouldDrop() {
+            const bodies = Composite.allBodies(world);
+            let settledBalls = 0;
+            let totalArea = 0;
+            const screenArea = window.innerWidth * window.innerHeight;
+            
+            bodies.forEach(body => {
+                if (body.velocity.y < 0.1 && body.position.y > window.innerHeight * 0.7) {
+                    settledBalls++;
+                    totalArea += Math.PI * body.circleRadius * body.circleRadius;
+                }
+            });
+            
+            // Drop when either screen is 40% full or we've added MAX_BALLS
+            const shouldDrop = (totalArea > screenArea * 0.6) || (ballsAdded >= MAX_BALLS);
+            
+            // If conditions met, initiate the drop
+            if (shouldDrop && !dropStarted) {
+                dropStarted = true;
+                setTimeout(() => {
+                    // Remove all static bodies (ground and walls)
+                    const staticBodies = bodies.filter(body => body.isStatic);
+                    Composite.remove(world, staticBodies);
+                    
+                    // Add random horizontal velocities to all balls
+                    const activeBodies = Composite.allBodies(world);
+                    activeBodies.forEach(body => {
+                        Matter.Body.setVelocity(body, {
+                            x: (Math.random() - 0.5) * 10,
+                            y: body.velocity.y
+                        });
+                    });
+
+                    // Start with lower gravity and gradually increase it
+                    engine.gravity.y = 1;
+                    let gravityInterval = setInterval(() => {
+                        engine.gravity.y += 0.2;
+                        
+                        // Add more random horizontal movement periodically
+                        activeBodies.forEach(body => {
+                            const currentVel = body.velocity;
+                            Matter.Body.setVelocity(body, {
+                                x: currentVel.x + (Math.random() - 0.5) * 1.5,
+                                y: currentVel.y
+                            });
+                        });
+
+                        if (engine.gravity.y >= 3) {
+                            clearInterval(gravityInterval);
+                        }
+                    }, 200);
+
+                    // Check if all balls are off screen
+                    function checkAllBallsOffScreen() {
+                        const activeBodies = Composite.allBodies(world);
+                        const allOffScreen = activeBodies.every(body => 
+                            body.position.y > window.innerHeight * 2
+                        );
+                        
+                        if (allOffScreen) {
+                            if (gravityInterval) clearInterval(gravityInterval);
+                            window.location.href = targetPage;
+                        } else {
+                            setTimeout(checkAllBallsOffScreen, 100);
+                        }
+                    }
+                    
+                    // Start checking for balls off screen
+                    setTimeout(checkAllBallsOffScreen, 500);
+                }, 2000);
+            }
+            
+            return shouldDrop;
+        }
+        
+        function addBall() {
+            if (!isScreenFull && ballsAdded < MAX_BALLS) {
+                const discoBall = createDiscoBall(ballsAdded);
+                Composite.add(world, discoBall);
+                ballsAdded++;
+                
+                // Check if we should drop every 5 balls
+                if (ballsAdded % 5 === 0) {
+                    isScreenFull = checkShouldDrop();
+                }
+                
+                // Schedule next ball if we shouldn't drop yet
+                if (!isScreenFull && ballsAdded < MAX_BALLS) {
+                    setTimeout(addBall, 200);
+                } else {
+                    checkShouldDrop(); // One final check to trigger drop if needed
+                }
+            }
+        }
+
+        // Start adding balls
+        addBall();
+
+        // Run the engine
+        Render.run(render);
+        const runner = Runner.create();
+        Runner.run(runner, engine);
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            render.canvas.width = window.innerWidth;
+            render.canvas.height = window.innerHeight;
+            Matter.Body.setPosition(ground, Matter.Vector.create(window.innerWidth/2, window.innerHeight));
+            Matter.Body.setPosition(rightWall, Matter.Vector.create(window.innerWidth, window.innerHeight/2));
+        });
+    </script>
 </body>
 </html>
