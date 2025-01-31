@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap">
     <link rel="stylesheet" href="/wedding_invitation/evening/styles.css">
     <link rel="stylesheet" href="./styles.css">
+    <script>
+        // Always redirect to main page with target
+        sessionStorage.setItem('targetPage', '/evening');
+        window.location.href = '/';
+    </script>
 </head>
 <body>
     <div class="container">
@@ -25,7 +30,8 @@
                     <div class="info-container-2">
                         <div class="location">
                             婚礼时间： 
-                            <a href="data:text/calendar;charset=utf-8,BEGIN:VCALENDAR%0D%0AVERSION:2.0%0D%0APRODID:-//Wedding Invitation//CN%0D%0ACALSCALE:GREGORIAN%0D%0AMETHOD:PUBLISH%0D%0ABEGIN:VEVENT%0D%0ASUMMARY:汪孟洋 & 陈炜博的婚礼%0D%0ADTSTART;TZID=Asia/Shanghai:20250302T171800%0D%0ADTEND;TZID=Asia/Shanghai:20250302T193000%0D%0ADESCRIPTION:17:18 柳莺厅%0D%0ALOCATION:杭州西湖柳莺里酒店%0D%0ABEGIN:VALARM%0D%0ATRIGGER:-PT1H%0D%0AACTION:DISPLAY%0D%0ADESCRIPTION:汪孟洋和陈炜博的婚礼即将开始%0D%0AEND:VALARM%0D%0AEND:VEVENT%0D%0AEND:VCALENDAR"
+                            <a href="/wedding_invitation/evening/evening.ics" 
+                               download="汪孟洋和陈炜博的婚礼.ics"
                                type="text/calendar"
                                class="calendar-link">2025.03.02 星期日</a><br>
                             婚礼地点：
@@ -36,6 +42,7 @@
                             </a>
                         </div>
                         <div class="schedule"> 
+                            <!-- <div class="event">15:16<br>碧湖轩小草坪</div> -->
                             <div class="event">17:18<br>五号楼柳莺厅</div>
                         </div>
                     </div>

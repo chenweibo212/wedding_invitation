@@ -14,7 +14,7 @@
             margin: 0;
             padding: 0;
             height: 100vh;
-            background-color: black;
+            background-color: #2E5FF2FF ;
             color: white;
             font-family: sans-serif;
             overflow: hidden;
@@ -39,10 +39,24 @@
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
+        @keyframes slideDown {
+            from { 
+                transform: translateY(0);
+            }
+            to { 
+                transform: translateY(100vh);
+            }
+        }
+        .slide-down {
+            animation: slideDown 0.8s ease-in forwards;
+        }
     </style>
 </head>
 <body>
+    <canvas id="canvas"></canvas>
     <script>
+        // Create square background
+
         // Determine target page from URL
         const path = window.location.pathname;
         const targetPage = path.includes('evening') ? '/evening' : '/afternoon';
@@ -87,6 +101,16 @@
 
         // Add ground and walls to world
         Composite.add(world, [ground, leftWall, rightWall]);
+
+        const square = document.createElement('div');
+        square.style.position = 'fixed';
+        square.style.top = '0vh';
+        square.style.left = '0vw';
+        square.style.width = '100vw';
+        square.style.height = '100vh';
+        square.style.backgroundColor = 'black';
+        square.style.zIndex = '0';
+        document.body.appendChild(square);
 
         // Create disco ball with random properties
         function createDiscoBall(index) {
@@ -204,7 +228,17 @@
                         
                         if (allOffScreen) {
                             if (gravityInterval) clearInterval(gravityInterval);
-                            window.location.href = targetPage;
+                            
+                            // Add slide down animation to square
+                            square.classList.add('slide-down');
+                            
+                            // Get target page and redirect after animation
+                            const targetPage = sessionStorage.getItem('targetPage');
+                            sessionStorage.removeItem('targetPage');
+                            
+                            setTimeout(() => {
+                                window.location.href = targetPage || '/afternoon';
+                            }, 800); // Match animation duration
                         } else {
                             setTimeout(checkAllBallsOffScreen, 100);
                         }
