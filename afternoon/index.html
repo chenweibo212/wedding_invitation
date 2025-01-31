@@ -14,6 +14,8 @@
         if (!sessionStorage.getItem('fromAnimation')) {
             sessionStorage.setItem('targetPage', 'https://notsofunny.us/afternoon');
             window.location.href = 'https://notsofunny.us';
+        } else {
+            sessionStorage.removeItem('fromAnimation');
         }
     </script>
 </head>

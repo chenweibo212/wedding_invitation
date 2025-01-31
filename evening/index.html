@@ -10,9 +10,13 @@
     <link rel="stylesheet" href="/wedding_invitation/evening/styles.css">
     <link rel="stylesheet" href="./styles.css">
     <script>
-        // Always redirect to main page with target
-        sessionStorage.setItem('targetPage', 'https://notsofunny.us/evening');
-        window.location.href = 'https://notsofunny.us';
+        // Check if we came directly or from animation
+        if (!sessionStorage.getItem('fromAnimation')) {
+            sessionStorage.setItem('targetPage', 'https://notsofunny.us/evening');
+            window.location.href = 'https://notsofunny.us';
+        } else {
+            sessionStorage.removeItem('fromAnimation');
+        }
     </script>
 </head>
 <body>
