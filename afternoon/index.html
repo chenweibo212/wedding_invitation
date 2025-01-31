@@ -6,12 +6,15 @@
     <title>2025/03/02 汪孟洋+陈炜博婚礼邀请函</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Futura:wght@700&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap">
+    <link rel="stylesheet" href="https://notsofunny.us/afternoon/styles.css">
     <link rel="stylesheet" href="/wedding_invitation/afternoon/styles.css">
     <link rel="stylesheet" href="./styles.css">
     <script>
-        // Always redirect to main page with target
-        sessionStorage.setItem('targetPage', 'https://notsofunny.us/afternoon');
-        window.location.href = 'https://notsofunny.us';
+        // Check if we came directly or from animation
+        if (!sessionStorage.getItem('fromAnimation')) {
+            sessionStorage.setItem('targetPage', 'https://notsofunny.us/afternoon');
+            window.location.href = 'https://notsofunny.us';
+        }
     </script>
 </head>
 <body>
@@ -30,7 +33,7 @@
                     <div class="info-container-2">
                         <div class="location">
                             婚礼时间： 
-                            <a href="data:text/calendar;charset=utf-8,BEGIN:VCALENDAR%0D%0AVERSION:2.0%0D%0APRODID:-//Wedding Invitation//CN%0D%0ACALSCALE:GREGORIAN%0D%0AMETHOD:PUBLISH%0D%0ABEGIN:VEVENT%0D%0ASUMMARY:汪孟洋 & 陈炜博的婚礼%0D%0ADTSTART;TZID=Asia/Shanghai:20250302T151600%0D%0ADTEND;TZID=Asia/Shanghai:20250302T173000%0D%0ADESCRIPTION:15:16 碧湖轩小草坪\n17:18 柳莺厅%0D%0ALOCATION:杭州西湖柳莺里酒店%0D%0ABEGIN:VALARM%0D%0ATRIGGER:-PT1H%0D%0AACTION:DISPLAY%0D%0ADESCRIPTION:汪孟洋和陈炜博的婚礼即将开始%0D%0AEND:VALARM%0D%0AEND:VEVENT%0D%0AEND:VCALENDAR"
+                            <a href="data:text/calendar;charset=utf-8,BEGIN:VCALENDAR%0D%0AVERSION:2.0%0D%0APRODID:-//Wedding Invitation//CN%0D%0ACALSCALE:GREGORIAN%0D%0AMETHOD:PUBLISH%0D%0ABEGIN:VEVENT%0D%0ASUMMARY:汪孟洋 & 陈炜博的婚礼%0D%0ADTSTART;TZID=Asia/Shanghai:20250302T151600%0D%0ADTEND;TZID=Asia/Shanghai:20250302T171800%0D%0ADESCRIPTION:15:16 碧湖轩小草坪\n17:18 柳莺厅%0D%0ALOCATION:杭州西湖柳莺里酒店%0D%0ABEGIN:VALARM%0D%0ATRIGGER:-PT1H%0D%0AACTION:DISPLAY%0D%0ADESCRIPTION:汪孟洋和陈炜博的婚礼即将开始%0D%0AEND:VALARM%0D%0AEND:VEVENT%0D%0AEND:VCALENDAR"
                                type="text/calendar"
                                class="calendar-link">2025.03.02 星期日</a><br>
                             婚礼地点：

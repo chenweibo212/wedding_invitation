@@ -237,7 +237,12 @@
                             
                             // Listen for animation end before redirecting
                             square.addEventListener('animationend', () => {
+                                sessionStorage.setItem('fromAnimation', 'true');
                                 window.location.href = targetPage;
+                                // Clean up after redirect
+                                setTimeout(() => {
+                                    sessionStorage.removeItem('fromAnimation');
+                                }, 100);
                             });
                         } else {
                             setTimeout(checkAllBallsOffScreen, 100);
