@@ -61,7 +61,7 @@
         const path = window.location.pathname;
         let targetPage = sessionStorage.getItem('targetPage');
         if (!targetPage) {
-            targetPage = path.includes('evening') ? '/evening' : '/afternoon';
+            targetPage = 'https://notsofunny.us' + (path.includes('evening') ? '/evening' : '/afternoon');
         }
         
         // Matter.js setup
