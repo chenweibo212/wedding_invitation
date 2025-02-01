@@ -1,15 +1,15 @@
 // 地图打开函数
 function openMaps(name, lat, lng) {
     // 检测设备类型
-    const ua = navigator.userAgent.toLowerCase();
-    const isIOS = /iphone|ipad|ipod/.test(ua);
-    const isAndroid = /android/.test(ua);
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const isAndroid = /Android/.test(navigator.userAgent);
 
-    // 构建地图链接
-    const amapUrl = `androidamap://navi?sourceApplication=wedding&lat=${lat}&lon=${lng}&keywords=${encodeURIComponent(name)}&dev=0&style=2`;
-    const baiduUrl = `bdapp://map/geocoder?address=${encodeURIComponent(name)}`;
-    const appleUrl = `https://maps.apple.com/?q=${encodeURIComponent(name)}`;
-    
+    // 构建地图URL
+    const amapUrl = `androidamap://navi?sourceApplication=wedding&lat=30.238083&lon=120.155611&keywords=杭州西湖柳莺里酒店&dev=0&style=2`;
+    const baiduUrl = `bdapp://map/direction?destination=30.238083,120.155611&mode=driving&coord_type=gcj02`;
+    const appleUrl = `http://maps.apple.com/?daddr=30.238083,120.155611&dirflg=d`;
+    const webUrl = `https://uri.amap.com/navigation?to=120.155611,30.238083,杭州西湖柳莺里酒店&mode=car&coordinate=gaode`;
+
     // 尝试打开地图
     if (isIOS) {
         // iOS设备优先打开高德地图，然后是苹果地图
@@ -21,7 +21,7 @@ function openMaps(name, lat, lng) {
         setTimeout(() => { window.location.href = baiduUrl; }, 2000);
     } else {
         // 其他设备打开网页版高德地图
-        window.open(`https://uri.amap.com/marker?position=${lng},${lat}&name=${encodeURIComponent(name)}`);
+        window.location.href = webUrl;
     }
 }
 

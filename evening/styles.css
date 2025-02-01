@@ -202,7 +202,17 @@ h1 {
     padding-left: 1.5vmin;
 }
 
+/* 横屏适配 */
 @media (orientation: landscape) {
+    :root {
+        --page-height: 100vh;
+    }
+
+    .container {
+        /* height: var(--page-height); */
+        min-height: -webkit-fill-available; /* 解决iOS Safari 底部工具栏问题 */
+    }
+
     .text-content h1,
     .text-content .venue-info,
     .text-content .info-container-2,
@@ -236,6 +246,133 @@ h1 {
         position: absolute;
         left: 50%;
     }
+
+    .tetris-block {
+        width: calc(25vmin - 3px);
+        height: calc(25vmin - 3px);
+    }
+
+    .schedule {
+        padding-top: 1.5vmin;
+        font-size: 3vmin;
+    }
+
+    .text-content {
+        padding: 2vh 0.2vmin 0.2vmin;
+    }
+}
+
+/* 长宽比适配 - 介于4:6和横屏之间 */
+@media screen and (min-aspect-ratio: 2/3) and (max-aspect-ratio: 3/2) {
+    :root {
+        --page-height: 100vh;
+    }
+
+    .container {
+        min-height: -webkit-fill-available;
+    }
+
+    .text-content h1,
+    .text-content .venue-info,
+    .text-content .info-container-2,
+    .text-content .event,
+    .text-content .location {
+        font-size: 3vmin;
+    }
+
+    .wedding-text {
+        font-size: 16vmin;
+    }
+
+    .names {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 0 5vw;
+        margin-top: 0;
+        position: absolute;
+        top: calc(3vh + 18.5vmin);
+    }
+    
+    .names br {
+        display: none;
+    }
+
+    .plus {
+        transform: translateX(-50%);
+        position: absolute;
+        left: 50%;
+    }
+
+    .tetris-block {
+        width: calc(25vmin - 3px);
+        height: calc(25vmin - 3px);
+    }
+
+    .schedule {
+        padding-top: 1.5vmin;
+        font-size: 3vmin;
+    }
+
+    .text-content {
+        padding: 2vh 0.2vmin 0.2vmin;
+    }
+}
+
+/* iOS Safari 特定适配 */
+@supports (-webkit-touch-callout: none) {
+    @media (orientation: landscape) {
+        .container {
+            height: -webkit-fill-available;
+        }
+    }
+}
+
+@media screen and (min-width: 428px) {
+    /* iPhone Max 等大屏设备 */
+    :root {
+        --page-height: 217vw; /* iPhone Max aspect ratio */
+    }
+
+    .tetris-block {
+        width: calc(31.05vmin - 3px);
+        height: calc(31.05vmin - 3px);
+    }
+
+    .text-content {
+        padding: 3vh 0.2vmin 0.2vmin;
+    }
+
+    .schedule {
+        padding-top: 2vmin;
+        font-size: 4vmin;
+    }
+}
+
+@media screen and (max-width: 427px) {
+    /* 小屏设备 */
+    .tetris-block {
+        width: calc(28vmin - 3px);
+        height: calc(28vmin - 3px);
+    }
+
+    .text-content {
+        padding: 2.5vh 0.2vmin 0.2vmin;
+    }
+
+    .schedule {
+        padding-top: 1.5vmin;
+        font-size: 3.5vmin;
+    }
+
+    .text-content h1 {
+        font-size: 5vmin;
+    }
+
+    .text-content h2 {
+        font-size: 4vmin;
+    }
 }
 
 .plus {
@@ -246,6 +383,7 @@ h1 {
 .schedule{
     padding-top: 1.5vh;
 }
+
 /* 确保每个形状的类都存在 */
 .shape-I, .shape-J, .shape-L, .shape-O, .shape-S, .shape-T, .shape-Z {
     position: absolute;
