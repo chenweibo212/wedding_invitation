@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025/03/02 汪孟洋+陈炜博婚礼邀请函</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&display=swap">
     <style>
@@ -15,7 +16,7 @@
             margin: 0;
             padding: 0;
             height: 100vh;
-            background-color: #2E5FF2FF ;
+            background-color: black;
             color: white;
             font-family: sans-serif;
             overflow: hidden;
@@ -60,19 +61,11 @@
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
-        .slide-down {
-            animation: slideDown 1s forwards;
-        }
-        @keyframes slideDown {
-            to { transform: translateY(120vh); }
-        }
     </style>
 </head>
 <body>
     <canvas id="canvas"></canvas>
     <script>
-        // Create square background
-
         // Determine target page from URL
         const path = window.location.pathname;
         let targetPage = sessionStorage.getItem('targetPage');
@@ -121,16 +114,6 @@
         // Add ground and walls to world
         Composite.add(world, [ground, leftWall, rightWall]);
 
-        const square = document.createElement('div');
-        square.style.position = 'fixed';
-        square.style.top = '-5vh';
-        square.style.left = '-5vw';
-        square.style.width = '105vw';
-        square.style.height = '105vh';
-        square.style.backgroundColor = 'black';
-        square.style.zIndex = '0';
-        document.body.appendChild(square);
-
         // Create disco ball with random properties
         function createDiscoBall(index) {
             const ball = document.createElement('div');
@@ -144,7 +127,7 @@
             
             // Make the first ball special
             if (index === 0) {
-                container.textContent = '🕡';
+                container.textContent = '🪩';
                 ball.style.fontSize = '20vmin';
             } else {
                 // Create emoji and name in the same container
@@ -275,15 +258,8 @@
                         
                         if (allOffScreen) {
                             if (gravityInterval) clearInterval(gravityInterval);
-                            
-                            // Add slide down animation to square
-                            square.classList.add('slide-down');
-                            
-                            // Listen for animation end before redirecting
-                            square.addEventListener('animationend', () => {
-                                sessionStorage.setItem('fromAnimation', 'true');
-                                window.location.href = targetPage;
-                            });
+                            sessionStorage.setItem('fromAnimation', 'true');
+                            window.location.href = targetPage;
                         } else {
                             setTimeout(checkAllBallsOffScreen, 100);
                         }
