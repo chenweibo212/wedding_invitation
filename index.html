@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&display=swap">
     <style>
         * {
             margin: 0;
@@ -26,29 +27,44 @@
             margin: 0;
         }
         .emoji {
-            font-size: 20vmin;
-            position: absolute;
+            position: fixed;
             pointer-events: none;
             user-select: none;
-            transform-origin: center;
-            will-change: transform;
-            padding: 0;
-            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .emoji-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .name {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color:#FF0DB2FF;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+            /* background-color: pink;
+            padding: 0.1em 0.1em; */
+            font-size: 0.18em;
+            white-space: nowrap;
+            z-index: 1;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 500;
+            letter-spacing: 0.08em;
         }
         @keyframes spin {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
-        @keyframes slideDown {
-            from { 
-                transform: translateY(0);
-            }
-            to { 
-                transform: translateY(120vh);
-            }
-        }
         .slide-down {
-            animation: slideDown 1s ease-in forwards;
+            animation: slideDown 1s forwards;
+        }
+        @keyframes slideDown {
+            to { transform: translateY(120vh); }
         }
     </style>
 </head>
@@ -107,10 +123,10 @@
 
         const square = document.createElement('div');
         square.style.position = 'fixed';
-        square.style.top = '0vh';
-        square.style.left = '0vw';
-        square.style.width = '100vw';
-        square.style.height = '100vh';
+        square.style.top = '-5vh';
+        square.style.left = '-5vw';
+        square.style.width = '105vw';
+        square.style.height = '105vh';
         square.style.backgroundColor = 'black';
         square.style.zIndex = '0';
         document.body.appendChild(square);
@@ -119,27 +135,47 @@
         function createDiscoBall(index) {
             const ball = document.createElement('div');
             ball.className = 'emoji';
-            ball.style.animation = `spin ${2 + Math.random() * 2}s linear infinite`;
+            ball.style.position = 'fixed';
+            ball.style.willChange = 'transform';
+            
+            const container = document.createElement('div');
+            container.className = 'emoji-container';
+            container.style.animation = `spin ${2 + Math.random() * 2}s linear infinite`;
             
             // Make the first ball special
             if (index === 0) {
-                ball.textContent = '㊗️';
+                container.textContent = '🕡';
                 ball.style.fontSize = '20vmin';
             } else {
+                // Create emoji and name in the same container
+                const emojiText = document.createElement('div');
+                emojiText.textContent = '🪩';
+                container.appendChild(emojiText);
+                
+                // Add name
+                const name = document.createElement('div');
+                name.className = 'name';
+                name.textContent = index % 2 === 0 ? '汪孟洋' : '陈炜博';
+                container.appendChild(name);
+                
                 ball.style.fontSize = `${15 + Math.random() * 20}vmin`;
-                ball.textContent = '🪩';
             }
             
+            ball.appendChild(container);
             document.body.appendChild(ball);
 
-            const radius = parseFloat(ball.style.fontSize) * window.innerWidth / 100 / 2;
+            // Calculate radius based on orientation
+            const radius = window.innerWidth > window.innerHeight ? 
+                parseFloat(ball.style.fontSize) * window.innerHeight / 100 / 2 : 
+                parseFloat(ball.style.fontSize) * window.innerWidth / 100 / 2;
+
             const discoBall = Bodies.circle(
                 radius + Math.random() * (window.innerWidth - 2 * radius),
                 -radius - Math.random() * window.innerHeight,
                 radius,
                 {
-                    restitution: 0.3 + Math.random() * 0.4,
-                    friction: 0.1,
+                    restitution: 0.3 + Math.random() * 0.3,
+                    friction: 0.15,
                     render: { fillStyle: 'transparent' }
                 }
             );
@@ -155,8 +191,12 @@
                 ball.style.left = `${discoBall.position.x - radius}px`;
                 ball.style.top = `${discoBall.position.y - radius}px`;
                 
-                // If ball is far below screen, remove it from DOM
-                if (discoBall.position.y > window.innerHeight * 2) {
+                // Adjust removal distance based on orientation
+                const removalDistance = window.innerWidth > window.innerHeight ? 
+                    window.innerHeight * 1.2 : 
+                    window.innerHeight * 2;   
+                
+                if (discoBall.position.y > removalDistance) {
                     ball.remove();
                 }
             });
@@ -168,7 +208,7 @@
         let ballsAdded = 0;
         let isScreenFull = false;
         let dropStarted = false;
-        const MAX_BALLS = 40;
+        const MAX_BALLS = 30;
         
         function checkShouldDrop() {
             const bodies = Composite.allBodies(world);
@@ -206,7 +246,7 @@
                     // Start with lower gravity and gradually increase it
                     engine.gravity.y = 1;
                     let gravityInterval = setInterval(() => {
-                        engine.gravity.y += 0.2;
+                        engine.gravity.y += 0.3;
                         
                         // Add more random horizontal movement periodically
                         activeBodies.forEach(body => {
@@ -225,8 +265,12 @@
                     // Check if all balls are off screen
                     function checkAllBallsOffScreen() {
                         const activeBodies = Composite.allBodies(world);
+                        const removalDistance = window.innerWidth > window.innerHeight ? 
+                            window.innerHeight * 1.2 : 
+                            window.innerHeight * 2;   
+                        
                         const allOffScreen = activeBodies.every(body => 
-                            body.position.y > window.innerHeight * 2
+                            body.position.y > removalDistance
                         );
                         
                         if (allOffScreen) {
