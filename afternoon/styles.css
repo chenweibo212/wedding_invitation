@@ -15,6 +15,9 @@ html, body {
     width: 100%;
     height: 100%;
     overflow: hidden;
+    -webkit-text-size-adjust: 100% !important;
+    text-size-adjust: 100% !important;
+    -moz-text-size-adjust: 100% !important;
 }
 
 body {
@@ -138,7 +141,7 @@ h1 {
 
 .venue-info {
     position: absolute;
-    bottom: 5vmin;
+    bottom: 4vmin;
     left: 0;
     width: 100%;
     text-align: center;
@@ -218,7 +221,7 @@ h1 {
     .text-content .info-container-2,
     .text-content .event,
     .text-content .location {
-        font-size: 3vmin;
+        font-size: 2.5vmin;
     }
 
     /* Keep wedding-text at original size */
@@ -254,7 +257,7 @@ h1 {
 
     .schedule {
         padding-top: 1.5vmin;
-        font-size: 3vmin;
+        font-size: 2.5vmin;
     }
 
     .text-content {
@@ -277,7 +280,7 @@ h1 {
     .text-content .info-container-2,
     .text-content .event,
     .text-content .location {
-        font-size: 3vmin;
+        font-size: 2.5vmin;
     }
 
     .wedding-text {
@@ -312,7 +315,7 @@ h1 {
 
     .schedule {
         padding-top: 1.5vmin;
-        font-size: 3vmin;
+        font-size: 2.5vmin;
     }
 
     .text-content {
@@ -340,8 +343,17 @@ h1 {
         height: calc(31.05vmin - 3px);
     }
 
-    .text-content {
-        padding: 3vh 0.2vmin 0.2vmin;
+    .text-content h1,
+    .text-content .venue-info,
+    .text-content .info-container-2,
+    .text-content .event,
+    .text-content .location {
+        font-size: 4vmin;
+    }
+
+    /* Keep wedding-text at original size */
+    .wedding-text {
+        font-size: 16vmin;
     }
 
     .schedule {
@@ -357,20 +369,21 @@ h1 {
         height: calc(28vmin - 3px);
     }
 
-    .text-content {
-        padding: 2.5vh 0.2vmin 0.2vmin;
+    .text-content h1,
+    .text-content .venue-info,
+    .text-content .info-container-2,
+    .text-content .event,
+    .text-content .location {
+        font-size: 4vmin;
+    }
+
+    /* Keep wedding-text at original size */
+    .wedding-text {
+        font-size: 16vmin;
     }
 
     .schedule {
-        padding-top: 1.5vmin;
-        font-size: 3.5vmin;
-    }
-
-    .text-content h1 {
-        font-size: 5vmin;
-    }
-
-    .text-content h2 {
+        padding-top: 2vmin;
         font-size: 4vmin;
     }
 }
