@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="汪孟洋&陈炜博的婚礼邀请函" />
+    <meta property="og:title" content="汪孟洋&陈炜博婚礼 - 邀请函" />
     <meta property="og:description" content="诚挚邀请您参加我们的婚礼" />
     <meta property="og:image" content="http://wnsw.caddk.cn/img/share-icon.png" />
     <meta property="og:url" content="https://wnsw.caddk.cn/" />
-    <title>汪孟洋&陈炜博的婚礼邀请函</title>
+    <title>汪孟洋&陈炜博婚礼 - 邀请函</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Futura:wght@700&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap">
     <link rel="stylesheet" href="./styles.css">
@@ -51,7 +51,7 @@
             // 更新meta标签
             async function updateTags() {
                 const guestInfo = await getGuestInfo();
-                let title = '汪孟洋&陈炜博的婚礼邀请函';
+                let title = '汪孟洋&陈炜博婚礼 - 邀请函';
                 let description = '诚挚邀请您参加我们的婚礼';
                 
                 if (guestInfo && guestInfo.success) {
@@ -77,32 +77,6 @@
 
         // 页面加载完成后更新meta标签
         document.addEventListener('DOMContentLoaded', updateMetaTags);
-
-        // 背景色循环动画
-        const colors = ['#2E5FF2', '#E4FF00', '#089247', '#7A21A8', '#F74A25', '#BF0000', '#FF0DB2'];
-        let colorIndex = 0;
-        let loadingInterval;
-
-        function startLoadingAnimation() {
-            document.body.style.backgroundColor = colors[0];
-            loadingInterval = setInterval(() => {
-                colorIndex = (colorIndex + 1) % colors.length;
-                document.body.style.backgroundColor = colors[colorIndex];
-            }, 500);
-        }
-
-        function stopLoadingAnimation() {
-            clearInterval(loadingInterval);
-            document.body.style.backgroundColor = '#fff'; // 或者其他最终的背景色
-        }
-
-        // 页面加载时开始动画
-        startLoadingAnimation();
-
-        // 当页面完全加载后停止动画
-        window.addEventListener('load', () => {
-            stopLoadingAnimation();
-        });
 
         //Check if we came directly or from animation
         if (!sessionStorage.getItem('fromAnimation')) {

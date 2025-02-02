@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="汪孟洋&陈炜博的婚礼邀请函" />
+    <meta property="og:title" content="汪孟洋&陈炜博婚礼 - 邀请函" />
     <meta property="og:description" content="诚挚邀请您参加我们的婚礼" />
     <meta property="og:image" content="http://wnsw.caddk.cn/img/share-icon.png" />
     <meta property="og:url" content="https://wnsw.caddk.cn/" />
-    <title>汪孟洋&陈炜博的婚礼邀请函</title>
+    <title>汪孟洋&陈炜博婚礼 - 邀请函</title>
     <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&display=swap">
@@ -157,7 +157,7 @@
         // 如果检测失败，直接跳转
         function fallbackRedirect() {
             const path = window.location.pathname;
-            const targetPage = 'https://notsofunny.us' + (path.includes('evening') ? '/evening' : '/afternoon');
+            const targetPage = 'https://wnsw.caddk.cn/' + (path.includes('evening') ? '/evening' : '/afternoon');
             console.log('Fallback redirect to:', targetPage);
             window.location.href = targetPage;
         }
@@ -171,7 +171,7 @@
         const path = window.location.pathname;
         let targetPage = sessionStorage.getItem('targetPage');
         if (!targetPage) {
-            targetPage = 'https://notsofunny.us' + (path.includes('evening') ? '/evening' : '/afternoon');
+            targetPage = 'https://wnsw.caddk.cn/' + (path.includes('evening') ? '/evening' : '/afternoon');
         }
         
         // Matter.js setup
@@ -492,7 +492,7 @@
             // 更新meta标签
             async function updateTags() {
                 const guestInfo = await getGuestInfo();
-                let title = '汪孟洋&陈炜博的婚礼邀请函';
+                let title = '汪孟洋&陈炜博婚礼 - 邀请函';
                 let description = '诚挚邀请您参加我们的婚礼';
                 
                 if (guestInfo && guestInfo.success) {
@@ -503,7 +503,7 @@
                 if (currentPath.includes('/afternoon')) {
                     description += '💕';
                 } else if (currentPath.includes('/evening')) {
-                    description += '🩷';
+                    description += ' - 🩷';
                 }
 
                 // 更新meta标签
