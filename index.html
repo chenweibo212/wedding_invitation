@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>汪孟洋&陈炜博的婚礼邀请函</title>
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&display=swap">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -417,8 +418,13 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            // 只在有特定目标页面时才进行跳转
             const targetPage = sessionStorage.getItem('targetPage');
-            if (targetPage) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const hasParams = urlParams.toString().length > 0;
+
+            // 只有在有targetPage或URL参数时才进行跳转
+            if ((targetPage || hasParams) && engine) {
                 sessionStorage.removeItem('targetPage');
                 sessionStorage.setItem('fromAnimation', 'true');
 
@@ -438,7 +444,12 @@
                     if (allFallen) {
                         // 使用完整的URL进行跳转
                         const baseUrl = getBaseUrl();
-                        window.location.href = `${baseUrl}${targetPage}`;
+                        if (targetPage) {
+                            window.location.href = `${baseUrl}${targetPage}`;
+                        } else if (hasParams) {
+                            // 如果有URL参数但没有targetPage，跳转到afternoon
+                            window.location.href = `${baseUrl}/afternoon${window.location.search}`;
+                        }
                     } else {
                         requestAnimationFrame(checkBodies);
                     }
@@ -448,6 +459,48 @@
                 requestAnimationFrame(checkBodies);
             }
         });
+    </script>
+    <script>
+        // 配置微信分享
+        async function configWxShare() {
+            try {
+                const baseUrl = getBaseUrl();
+                const response = await fetch(`${baseUrl}/api/wx/config?url=${encodeURIComponent(window.location.href)}`);
+                const config = await response.json();
+                
+                wx.config({
+                    debug: false,
+                    appId: config.appId,
+                    timestamp: config.timestamp,
+                    nonceStr: config.nonceStr,
+                    signature: config.signature,
+                    jsApiList: [
+                        'updateAppMessageShareData',
+                        'updateTimelineShareData'
+                    ]
+                });
+
+                wx.ready(function() {
+                    const shareData = {
+                        title: '汪孟洋&陈炜博的婚礼邀请函',
+                        desc: '诚挚邀请您参加我们的婚礼',
+                        link: window.location.href,
+                        imgUrl: `${baseUrl}/share-icon.png`,
+                        success: function() {
+                            console.log('分享成功');
+                        }
+                    };
+
+                    wx.updateAppMessageShareData(shareData);
+                    wx.updateTimelineShareData(shareData);
+                });
+            } catch (error) {
+                console.error('配置微信分享失败:', error);
+            }
+        }
+
+        // 页面加载完成后配置微信分享
+        document.addEventListener('DOMContentLoaded', configWxShare);
     </script>
 </body>
 </html>

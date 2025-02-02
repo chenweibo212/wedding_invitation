@@ -7,7 +7,7 @@ function openMaps(name, lat, lng) {
     const amapUrl = `androidamap://navi?sourceApplication=wedding&lat=30.238083&lon=120.155611&keywords=杭州西湖柳莺里酒店&dev=0&style=2`;
     const baiduUrl = `bdapp://map/direction?destination=30.238083,120.155611&mode=driving&coord_type=gcj02`;
     const appleUrl = `http://maps.apple.com/?daddr=30.238083,120.155611&dirflg=d`;
-    const webUrl = `https://uri.amap.com/navigation?to=120.155611,30.238083,杭州西湖柳莺里酒店&mode=car&coordinate=gaode`;
+    const amapWebUrl = `https://uri.amap.com/navigation?to=120.155611,30.238083,杭州西湖柳莺里酒店&mode=car&coordinate=gaode`;
 
     // 检测应用是否打开成功
     let hasOpened = false;
