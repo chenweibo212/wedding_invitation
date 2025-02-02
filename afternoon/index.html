@@ -13,13 +13,13 @@
     <link rel='shortcut icon' type='image/x-icon' href='/wedding_invitation/favicon.ico' />
     <link rel='shortcut icon' type='image/x-icon' href='https://notsofunny.us/favicon.ico' />
     <script>
-        // Check if we came directly or from animation
-        // if (!sessionStorage.getItem('fromAnimation')) {
-        //     sessionStorage.setItem('targetPage', 'https://notsofunny.us/afternoon');
-        //     window.location.href = 'https://notsofunny.us';
-        // } else {
-        //     sessionStorage.removeItem('fromAnimation');
-        // }
+        //Check if we came directly or from animation
+        if (!sessionStorage.getItem('fromAnimation')) {
+            sessionStorage.setItem('targetPage', 'https://notsofunny.us/afternoon');
+            window.location.href = 'https://notsofunny.us';
+        } else {
+            sessionStorage.removeItem('fromAnimation');
+        }
     </script>
 </head>
 <body>
