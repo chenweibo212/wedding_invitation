@@ -21,13 +21,29 @@ app.use(express.static(__dirname, {
     }
 }));
 
-// 处理目录路由
+// 处理目录路由 - 确保这些路由在静态文件服务之后
 app.get('/evening', (req, res) => {
     res.sendFile(path.join(__dirname, 'evening/index.html'));
 });
 
 app.get('/afternoon', (req, res) => {
     res.sendFile(path.join(__dirname, 'afternoon/index.html'));
+});
+
+// 处理根路径
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// 处理其他所有路由 - 重定向到首页
+app.get('*', (req, res, next) => {
+    if (req.url.startsWith('/api')) {
+        // API 请求交给下一个处理器
+        next();
+    } else {
+        // 非 API 请求重定向到首页
+        res.redirect('/');
+    }
 });
 
 // 读取宾客列表
