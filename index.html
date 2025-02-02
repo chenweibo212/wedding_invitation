@@ -404,6 +404,18 @@
         });
     </script>
     <script>
+        // 获取基础URL的函数
+        function getBaseUrl() {
+            const hostname = window.location.hostname;
+            if (hostname === 'localhost') {
+                return 'http://localhost:3000';
+            } else if (hostname === 'wedding.zeabur.app') {
+                return 'https://wedding.zeabur.app';
+            } else {
+                return 'https://notsofunny.us';
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const targetPage = sessionStorage.getItem('targetPage');
             if (targetPage) {
@@ -424,7 +436,9 @@
                     });
 
                     if (allFallen) {
-                        window.location.href = targetPage;
+                        // 使用完整的URL进行跳转
+                        const baseUrl = getBaseUrl();
+                        window.location.href = `${baseUrl}${targetPage}`;
                     } else {
                         requestAnimationFrame(checkBodies);
                     }
