@@ -8,20 +8,15 @@ const axios = require('axios');
 const app = express();
 app.use(cors());
 
+// 静态文件服务
+app.use(express.static(path.join(__dirname)));
+app.use('/img', express.static(path.join(__dirname, 'img')));
+
 // 添加请求日志中间件
 app.use((req, res, next) => {
     console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
     next();
 });
-
-// 提供静态文件服务
-app.use(express.static(__dirname, {
-    setHeaders: (res, path, stat) => {
-        if (path.endsWith('.ico')) {
-            res.set('Content-Type', 'image/x-icon');
-        }
-    }
-}));
 
 // 处理目录路由 - 确保这些路由在静态文件服务之后
 app.get('/evening', (req, res) => {

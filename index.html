@@ -3,11 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="汪孟洋&陈炜博的婚礼邀请函" />
+    <meta property="og:description" content="诚挚邀请您参加我们的婚礼" />
+    <meta property="og:image" content="http://wnsw.caddk.cn/img/share-icon.png" />
+    <meta property="og:url" content="https://wnsw.caddk.cn/" />
     <title>汪孟洋&陈炜博的婚礼邀请函</title>
     <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&display=swap">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
     <style>
         * {
             margin: 0;
@@ -343,12 +349,10 @@
                     // Check if all balls are off screen
                     function checkAllBallsOffScreen() {
                         const activeBodies = Composite.allBodies(world);
-                        const removalDistance = window.innerWidth > window.innerHeight ? 
-                            window.innerHeight * 1.2 : 
-                            window.innerHeight * 2;   
-                        
+                        const screenHeight = window.innerHeight;
+                        // 检查是否所有物体都在屏幕下方
                         const allOffScreen = activeBodies.every(body => 
-                            body.position.y > removalDistance
+                            body.position.y > screenHeight + 100 // 加100px的缓冲
                         );
                         
                         if (allOffScreen) {
@@ -459,6 +463,59 @@
                 requestAnimationFrame(checkBodies);
             }
         });
+    </script>
+    <script>
+        // 更新Open Graph meta标签
+        function updateMetaTags() {
+            const baseUrl = getBaseUrl();
+            const urlParams = new URLSearchParams(window.location.search);
+            const wid = urlParams.get('wid');
+            const currentPath = window.location.pathname;
+
+            // 获取宾客信息
+            async function getGuestInfo() {
+                if (wid) {
+                    try {
+                        const response = await fetch(`${baseUrl}/api/guest/${wid}`);
+                        const data = await response.json();
+                        return data;
+                    } catch (error) {
+                        console.error('Error fetching guest info:', error);
+                        return null;
+                    }
+                }
+                return null;
+            }
+
+            // 更新meta标签
+            async function updateTags() {
+                const guestInfo = await getGuestInfo();
+                let title = '汪孟洋&陈炜博的婚礼邀请函';
+                let description = '诚挚邀请您参加我们的婚礼';
+                
+                if (guestInfo && guestInfo.success) {
+                    description = `诚挚邀请${guestInfo.name}${guestInfo.note || ''}参加我们的婚礼`;
+                }
+
+                // 根据当前页面设置不同的描述
+                if (currentPath.includes('/afternoon')) {
+                    description += ' - 💕';
+                } else if (currentPath.includes('/evening')) {
+                    description += ' - 🩷';
+                }
+
+                // 更新meta标签
+                document.querySelector('meta[property="og:title"]').setAttribute('content', title);
+                document.querySelector('meta[property="og:description"]').setAttribute('content', description);
+                document.querySelector('meta[property="og:image"]').setAttribute('content', `${baseUrl}/img/share-icon.png`);
+                document.querySelector('meta[property="og:url"]').setAttribute('content', window.location.href);
+            }
+
+            updateTags();
+        }
+
+        // 页面加载完成后更新meta标签
+        document.addEventListener('DOMContentLoaded', updateMetaTags);
     </script>
     <script>
         // 配置微信分享

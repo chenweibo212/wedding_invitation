@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="汪孟洋&陈炜博的婚礼邀请函" />
+    <meta property="og:description" content="诚挚邀请您参加我们的婚礼" />
+    <meta property="og:image" content="http://wnsw.caddk.cn/img/share-icon.png" />
+    <meta property="og:url" content="https://wnsw.caddk.cn/" />
     <title>汪孟洋&陈炜博的婚礼邀请函</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Futura:wght@700&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap">
-    <link rel="stylesheet" href="https://notsofunny.us/afternoon/styles.css">
-    <link rel="stylesheet" href="/wedding_invitation/afternoon/styles.css">
     <link rel="stylesheet" href="./styles.css">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <script>
@@ -22,6 +25,58 @@
                 return 'https://wnsw.caddk.cn';
             }
         }
+
+        // 更新Open Graph meta标签
+        function updateMetaTags() {
+            const baseUrl = getBaseUrl();
+            const urlParams = new URLSearchParams(window.location.search);
+            const wid = urlParams.get('wid');
+            const currentPath = window.location.pathname;
+
+            // 获取宾客信息
+            async function getGuestInfo() {
+                if (wid) {
+                    try {
+                        const response = await fetch(`${baseUrl}/api/guest/${wid}`);
+                        const data = await response.json();
+                        return data;
+                    } catch (error) {
+                        console.error('Error fetching guest info:', error);
+                        return null;
+                    }
+                }
+                return null;
+            }
+
+            // 更新meta标签
+            async function updateTags() {
+                const guestInfo = await getGuestInfo();
+                let title = '汪孟洋&陈炜博的婚礼邀请函';
+                let description = '诚挚邀请您参加我们的婚礼';
+                
+                if (guestInfo && guestInfo.success) {
+                    description = `诚挚邀请${guestInfo.name}${guestInfo.note || ''}参加我们的婚礼`;
+                }
+
+                // 根据当前页面设置不同的描述
+                if (currentPath.includes('/afternoon')) {
+                    description += ' - 💕';
+                } else if (currentPath.includes('/evening')) {
+                    description += ' - 🩷';
+                }
+
+                // 更新meta标签
+                document.querySelector('meta[property="og:title"]').setAttribute('content', title);
+                document.querySelector('meta[property="og:description"]').setAttribute('content', description);
+                document.querySelector('meta[property="og:image"]').setAttribute('content', `${baseUrl}/img/share-icon.png`);
+                document.querySelector('meta[property="og:url"]').setAttribute('content', window.location.href);
+            }
+
+            updateTags();
+        }
+
+        // 页面加载完成后更新meta标签
+        document.addEventListener('DOMContentLoaded', updateMetaTags);
 
         //Check if we came directly or from animation
         if (!sessionStorage.getItem('fromAnimation')) {
@@ -70,8 +125,6 @@
             </div>
         </div>
     </div>
-    <script src="https://notsofunny.us/afternoon/script.js"></script> 
-    <script src="/wedding_invitation/afternoon/script.js"></script>
     <script src="./script.js"></script> 
 </body>
 </html>
