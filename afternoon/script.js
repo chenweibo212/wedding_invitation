@@ -51,6 +51,43 @@ function openMaps(name, lat, lng) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    // 获取宾客信息
+    async function getGuestInfo() {
+        try {
+            // 从URL参数中获取微信ID
+            const urlParams = new URLSearchParams(window.location.search);
+            const wechatId = urlParams.get('wid');
+            
+            if (!wechatId) {
+                // 如果没有wid参数，显示默认文本
+                const h1 = document.querySelector('.text-content h1');
+                h1.textContent = '诚挚邀请您来参加我们的婚礼';
+                return;
+            }
+
+            // 根据环境选择API地址
+            const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : `https://${window.location.host}`;
+            const response = await fetch(`${baseUrl}/api/guest/${wechatId}`);
+            const data = await response.json();
+            
+            // 更新邀请文本
+            const h1 = document.querySelector('.text-content h1');
+            if (data.success) {
+                const guestText = data.note ? `${data.name}${data.note}` : data.name;
+                h1.textContent = `诚挚邀请 ${guestText} 参加我们的婚礼`;
+            } else {
+                h1.textContent = '诚挚邀请您来参加我们的婚礼';
+            }
+        } catch (error) {
+            console.error('Error fetching guest info:', error);
+            // 发生错误时也显示默认文本
+            const h1 = document.querySelector('.text-content h1');
+            h1.textContent = '诚挚邀请您来参加我们的婚礼';
+        }
+    }
+
+    getGuestInfo();
+
     let currentPage = 1;
     let endY = 0;
     const threshold = 50;
