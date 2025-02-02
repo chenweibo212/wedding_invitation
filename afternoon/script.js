@@ -1,6 +1,5 @@
 // 地图打开函数
 function openMaps(name, lat, lng) {
-    // 检测设备类型
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
     const isAndroid = /Android/.test(navigator.userAgent);
 
@@ -10,18 +9,44 @@ function openMaps(name, lat, lng) {
     const appleUrl = `http://maps.apple.com/?daddr=30.238083,120.155611&dirflg=d`;
     const webUrl = `https://uri.amap.com/navigation?to=120.155611,30.238083,杭州西湖柳莺里酒店&mode=car&coordinate=gaode`;
 
-    // 尝试打开地图
+    // 检测应用是否打开成功
+    let hasOpened = false;
+    const hidden = 'hidden' in document ? 'hidden' :
+                  'webkitHidden' in document ? 'webkitHidden' :
+                  'mozHidden' in document ? 'mozHidden' : null;
+    
+    const visibilityChange = hidden.replace(/hidden/i, 'visibilitychange');
+    const onVisibilityChange = () => {
+        if (!document[hidden]) {
+            // 页面可见，说明应用打开失败
+            if (!hasOpened) {
+                if (isIOS) {
+                    window.location.href = appleUrl;
+                } else if (isAndroid) {
+                    window.location.href = baiduUrl;
+                }
+            }
+        } else {
+            // 页面不可见，说明应用打开成功
+            hasOpened = true;
+        }
+    };
+
+    // 监听页面可见性变化
+    document.addEventListener(visibilityChange, onVisibilityChange);
+
+    // 1.5秒后移除监听器
+    setTimeout(() => {
+        document.removeEventListener(visibilityChange, onVisibilityChange);
+    }, 1500);
+
+    // 尝试打开高德地图
     if (isIOS) {
-        // iOS设备优先打开高德地图，然后是苹果地图
         window.location.href = amapUrl.replace('android', 'ios');
-        setTimeout(() => { window.location.href = appleUrl; }, 2000);
     } else if (isAndroid) {
-        // 安卓设备优先打开高德地图，然后是百度地图
         window.location.href = amapUrl;
-        setTimeout(() => { window.location.href = baiduUrl; }, 2000);
     } else {
-        // 其他设备打开网页版高德地图
-        window.location.href = webUrl;
+        window.location.href = amapWebUrl;
     }
 }
 

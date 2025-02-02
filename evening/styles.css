@@ -365,8 +365,8 @@ h1 {
 @media screen and (max-width: 427px) {
     /* 小屏设备 */
     .tetris-block {
-        width: calc(28vmin - 3px);
-        height: calc(28vmin - 3px);
+        width: calc(31.05vmin - 3px);
+        height: calc(31.05vmin - 3px);
     }
 
     .text-content h1,
