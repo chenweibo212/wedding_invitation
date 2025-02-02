@@ -446,6 +446,8 @@
                     });
 
                     if (allFallen) {
+                        // 切换背景色
+                        document.body.style.backgroundColor = '#2E5FF2';
                         // 使用完整的URL进行跳转
                         const baseUrl = getBaseUrl();
                         if (targetPage) {
@@ -499,9 +501,9 @@
 
                 // 根据当前页面设置不同的描述
                 if (currentPath.includes('/afternoon')) {
-                    description += ' - 💕';
+                    description += '💕';
                 } else if (currentPath.includes('/evening')) {
-                    description += ' - 🩷';
+                    description += '🩷';
                 }
 
                 // 更新meta标签

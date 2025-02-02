@@ -60,9 +60,9 @@
 
                 // 根据当前页面设置不同的描述
                 if (currentPath.includes('/afternoon')) {
-                    description += ' - 💕';
+                    description += '💕';
                 } else if (currentPath.includes('/evening')) {
-                    description += ' - 🩷';
+                    description += '🩷';
                 }
 
                 // 更新meta标签
@@ -77,6 +77,32 @@
 
         // 页面加载完成后更新meta标签
         document.addEventListener('DOMContentLoaded', updateMetaTags);
+
+        // 背景色循环动画
+        const colors = ['#2E5FF2', '#E4FF00', '#089247', '#7A21A8', '#F74A25', '#BF0000', '#FF0DB2'];
+        let colorIndex = 0;
+        let loadingInterval;
+
+        function startLoadingAnimation() {
+            document.body.style.backgroundColor = colors[0];
+            loadingInterval = setInterval(() => {
+                colorIndex = (colorIndex + 1) % colors.length;
+                document.body.style.backgroundColor = colors[colorIndex];
+            }, 500);
+        }
+
+        function stopLoadingAnimation() {
+            clearInterval(loadingInterval);
+            document.body.style.backgroundColor = '#fff'; // 或者其他最终的背景色
+        }
+
+        // 页面加载时开始动画
+        startLoadingAnimation();
+
+        // 当页面完全加载后停止动画
+        window.addEventListener('load', () => {
+            stopLoadingAnimation();
+        });
 
         //Check if we came directly or from animation
         if (!sessionStorage.getItem('fromAnimation')) {
