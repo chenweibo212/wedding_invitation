@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         } else if (hostname === 'wedding.zeabur.app') {
             return 'https://wedding.zeabur.app';
         } else {
-            return 'https://notsofunny.us';
+            return 'https://wnsw.caddk.cn';
         }
     }
 
