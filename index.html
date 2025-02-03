@@ -215,6 +215,22 @@
         // Add ground and walls to world
         Composite.add(world, [ground, leftWall, rightWall]);
 
+        // 检测是否支持 Unicode 15 的 Disco Ball emoji
+        function checkEmojiSupport() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.canvas.width = 1;
+            ctx.canvas.height = 1;
+            ctx.fillText('🪩', -4, 4);
+            const support = ctx.getImageData(0, 0, 1, 1).data[3] !== 0;
+            return support;
+        }
+
+        // 获取合适的 emoji
+        function getDiscoBallEmoji() {
+            return checkEmojiSupport() ? '🪩' : '🔵';
+        }
+
         // Create disco ball with random properties
         function createDiscoBall(index) {
             const ball = document.createElement('div');
@@ -228,12 +244,12 @@
             
             // Make the first ball special
             if (index === 0) {
-                container.textContent = '🪩';
+                container.textContent = getDiscoBallEmoji();
                 ball.style.fontSize = '20vmin';
             } else {
                 // Create emoji and name in the same container
                 const emojiText = document.createElement('div');
-                emojiText.textContent = '🪩';
+                emojiText.textContent = getDiscoBallEmoji();
                 container.appendChild(emojiText);
                 
                 // Add name
